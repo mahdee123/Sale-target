@@ -17,24 +17,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Health check (must be before wildcard)
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'OK', message: 'Sales Target API is running' });
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/branches', branchRoutes);
 app.use('/api/salesmen', salesmanRoutes);
 app.use('/api/sales', salesRoutes);
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-    const frontendBuild = path.join(__dirname, '..', 'frontend', 'build');
-    app.use(express.static(frontendBuild));
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(frontendBuild, 'index.html'));
-    });
-}
-
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'OK', message: 'Sales Target API is running' });
+// Serve frontend build (must be LAST - catches all non-API routes)
+const frontendBuild = path.join(__dirname, '..', 'frontend', 'build');
+app.use(express.static(frontendBuild));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendBuild, 'index.html'));
 });
 
 // Initialize database and start server
@@ -47,7 +45,6 @@ async function startServer() {
         });
     } catch (error) {
         console.error('Failed to initialize database:', error.message);
-        // Still start server even if database fails (for local dev without PostgreSQL)
         app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT} (without database)`);
         });
