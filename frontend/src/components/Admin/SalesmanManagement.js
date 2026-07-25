@@ -132,14 +132,14 @@ const SalesmanManagement = () => {
 
     return (
         <div className="container-fluid py-4">
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <div className="d-flex align-items-center">
+            <div className="mb-3">
+                <div className="d-flex align-items-center mb-2">
                     <button className="btn btn-outline-secondary me-3" onClick={() => navigate('/admin/dashboard')}>
                         ← Back
                     </button>
                     <h2 className="mb-0">Salesman Management</h2>
                 </div>
-                <button className="btn btn-primary" onClick={openModal}>
+                <button className="btn btn-primary w-100" onClick={openModal}>
                     + Add Salesman
                 </button>
             </div>
