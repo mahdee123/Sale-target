@@ -39,7 +39,8 @@ api.interceptors.response.use(
 // Auth API
 export const authAPI = {
     login: (credentials) => api.post('/auth/login', credentials),
-    getMe: () => api.get('/auth/me')
+    getMe: () => api.get('/auth/me'),
+    getPublicBranches: () => api.get('/auth/branches')
 };
 
 // Branch API

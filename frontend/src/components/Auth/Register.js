@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { branchAPI } from '../../services/api';
+import { authAPI } from '../../services/api';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const Register = () => {
 
     const fetchBranches = async () => {
         try {
-            const response = await branchAPI.getAll();
+            const response = await authAPI.getPublicBranches();
             setBranches(response.data);
         } catch (error) {
             toast.error('Failed to load branches');
